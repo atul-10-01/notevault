@@ -50,7 +50,6 @@ const userSchema = new Schema<IUser>({
 });
 
 // Index for better query performance
-userSchema.index({ email: 1 });
 userSchema.index({ isEmailVerified: 1 });
 
 export const User = mongoose.model<IUser>('User', userSchema);

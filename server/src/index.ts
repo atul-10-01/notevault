@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import connectDB from './config/database';
+import authRoutes from './routes/auth';
 
 // Load environment variables
 dotenv.config();
@@ -35,6 +36,8 @@ app.get('/', (req, res) => {
   });
 });
 
+// API routes
+app.use('/api/auth', authRoutes);
 
 // Start server
 app.listen(PORT, () => {
