@@ -50,6 +50,15 @@ A full-stack note-taking application with secure Email + OTP authentication and 
 - [x] Input validation with express-validator
 - [x] Comprehensive error handling and user feedback
 
+### COMPLETED - Security & Performance Enhancements
+- [x] **Per-User Rate Limiting**: Individual quotas per authenticated user
+- [x] **Input Sanitization**: XSS and NoSQL injection protection
+- [x] **Structured Logging**: Winston logger with proper log levels
+- [x] **Error Handling**: Comprehensive middleware with standardized responses
+- [x] **Security Headers**: Helmet.js for HTTP security headers
+- [x] **Request Logging**: Morgan HTTP request logger
+- [x] **Data Validation**: Express-validator with custom rules
+
 ### COMPLETED - Data Models
 ```typescript
 // User Model
@@ -102,13 +111,22 @@ A full-stack note-taking application with secure Email + OTP authentication and 
 5. "Keep me logged in" option available
 
 ### Security Features
-- COMPLETED: **Rate Limiting**: 30-second cooldown between OTP requests
+- COMPLETED: **Per-User Rate Limiting**: Individual quotas for authenticated users
+  - General notes operations: 200 requests per user per 10 minutes
+  - Note creation: 50 notes per user per 5 minutes
+  - Search operations: 50 searches per user per 5 minutes
+  - Individual note operations: 30 requests per user per minute
+  - Bulk operations: 20 requests per user per 10 minutes
+- COMPLETED: **Input Sanitization**: XSS and NoSQL injection protection
+- COMPLETED: **Structured Logging**: Request logging and error tracking
+- COMPLETED: **OTP Rate Limiting**: 30-second cooldown between OTP requests
 - COMPLETED: **OTP Expiration**: 10-minute validity
 - COMPLETED: **Attempt Limits**: Maximum 3 attempts per OTP
 - COMPLETED: **Age Validation**: Users must be 13-120 years old
 - COMPLETED: **Email Validation**: Regex pattern validation
 - COMPLETED: **Auto Cleanup**: Expired OTPs automatically deleted
 - COMPLETED: **Professional Email Templates**: No emojis, clean design
+- COMPLETED: **HTTP Security Headers**: Helmet.js protection
 
 ## Project Structure
 
@@ -129,7 +147,16 @@ Highway Delite/
 │   │   ├── controllers/    # Route handlers
 │   │   │   ├── authController.ts  # Authentication logic
 │   │   │   └── notesController.ts # Notes CRUD operations
-│   │   ├── middleware/     # Auth & validation
+│   │   ├── middleware/     # Auth, validation & security
+│   │   │   ├── auth.ts           # JWT authentication
+│   │   │   ├── authMiddleware.ts # Auth middleware
+│   │   │   ├── validation.ts     # Input validation rules
+│   │   │   ├── rateLimiter.ts    # Per-user rate limiting
+│   │   │   ├── sanitization.ts  # XSS & injection protection
+│   │   │   └── errorHandler.ts  # Error handling middleware
+│   │   ├── config/         # Configuration
+│   │   │   ├── database.ts       # Database connection
+│   │   │   └── logger.ts         # Winston logging setup
 │   │   ├── routes/         # API routes
 │   │   │   ├── auth.ts     # Authentication endpoints
 │   │   │   └── notes.ts    # Notes API endpoints
@@ -231,7 +258,7 @@ npm run build        # Production build
 
 ## Development Roadmap
 
-### COMPLETED (Commits 1-4)
+### COMPLETED (Commits 1-5)
 - [x] Basic Express server setup
 - [x] MongoDB connection and models
 - [x] Email + OTP authentication system
@@ -246,11 +273,18 @@ npm run build        # Production build
 - [x] Note pinning and organization
 - [x] Bulk operations
 - [x] API testing with Postman
+- [x] **Security & Performance Enhancements**:
+  - [x] Per-user rate limiting system
+  - [x] Input sanitization (XSS & NoSQL injection protection)
+  - [x] Structured logging with Winston
+  - [x] Comprehensive error handling
+  - [x] HTTP security headers
+  - [x] Request logging and monitoring
 
 ### UPCOMING FEATURES
-- [ ] Google OAuth integration (Commit 5)
-- [ ] Frontend authentication UI (Commit 6)
-- [ ] Notes management UI (Commit 7)
+- [ ] Google OAuth integration (Commit 6)
+- [ ] Frontend authentication UI (Commit 7)
+- [ ] Notes management UI (Commit 8)
 - [ ] Responsive design implementation
 - [ ] Dark mode support
 - [ ] Rich text editor for notes
@@ -261,9 +295,24 @@ npm run build        # Production build
 ## Development Notes
 
 ### Rate Limiting Strategy
-- **Backend Enforcement**: 30-second cooldown between OTP requests
+- **Authentication Endpoints**: IP-based limiting (10 requests per 15 minutes)
+- **Notes Operations**: Per-user limiting with different quotas:
+  - General operations: 200 requests per 10 minutes per user
+  - Note creation: 50 requests per 5 minutes per user
+  - Search operations: 50 requests per 5 minutes per user
+  - Individual note actions: 30 requests per minute per user
+  - Bulk operations: 20 requests per 10 minutes per user
+- **Unauthenticated Access**: IP-based limiting (100 requests per 15 minutes)
 - **Frontend UX**: Can show shorter countdown (10s) for better user experience
-- **Purpose**: Prevents spam while maintaining good UX
+- **Purpose**: Prevents abuse while maintaining good UX
+
+### Security Architecture
+- **Input Sanitization**: All user inputs sanitized against XSS and NoSQL injection
+- **Error Handling**: Consistent error responses without sensitive information leakage
+- **Logging**: Structured logging for monitoring and debugging
+- **HTTP Security**: Helmet.js for security headers
+- **Authentication**: JWT tokens with proper validation
+- **Authorization**: User-specific data access control
 
 ### Email Templates
 - Clean, professional HTML design
@@ -277,6 +326,14 @@ npm run build        # Production build
 - Efficient compound indexes for OTP queries
 - MongoDB text indexes for note search functionality
 - Optimized queries for user-specific data access
+
+### Security & Performance
+- Per-user rate limiting to prevent abuse
+- Input sanitization against common attacks
+- Structured logging for monitoring
+- Comprehensive error handling
+- HTTP security headers
+- Request/response logging
 
 ## Testing
 
@@ -295,8 +352,10 @@ All endpoints have been tested using Postman with the following test cases:
 - Invalid input validation
 - Authentication failures
 - Authorization checks
-- Rate limiting verification
+- Rate limiting verification (IP-based and per-user)
 - Database constraint validation
+- Security middleware testing
+- Error handling verification
 
 ## Contact & Support
 
@@ -305,5 +364,5 @@ This project is part of a full-stack development assignment showcasing modern we
 ---
 
 **Last Updated**: August 30, 2025  
-**Version**: 2.0.0 (Backend Complete)  
-**Status**: Backend Development Complete - Ready for Frontend Integration
+**Version**: 2.1.0 (Security Enhancements Complete)  
+**Status**: Backend Development Complete with Security Features - Ready for Frontend Integration
