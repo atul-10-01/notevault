@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import connectDB from './config/database';
 import authRoutes from './routes/auth';
+import notesRoutes from './routes/notes';
 
 // Load environment variables
 dotenv.config();
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/notes', notesRoutes);
 
 // Start server
 app.listen(PORT, () => {

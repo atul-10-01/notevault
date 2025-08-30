@@ -42,7 +42,7 @@ export const authMiddleware = async (
     }
 
     // Add user info to request object
-    (req as any).user = {
+    (req as any).authUser = {
       userId: decoded.userId,
       email: decoded.email
     };
