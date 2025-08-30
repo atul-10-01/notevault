@@ -2,16 +2,15 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import Note, { INote } from '../models/Note';
 import mongoose from 'mongoose';
+import { createResponse, APIError, asyncHandler } from '../middleware/errorHandler';
+import logger from '../config/logger';
 
 // Helper function to handle validation errors
 const handleValidationErrors = (req: Request, res: Response): boolean => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(400).json({
-      success: false,
-      error: 'Validation failed',
-      details: errors.array()
-    });
+    const response = createResponse(false, undefined, undefined, 'Validation failed', errors.array());
+    res.status(400).json(response);
     return true;
   }
   return false;
@@ -32,36 +31,29 @@ const checkNoteOwnership = async (noteId: string, userId: string): Promise<INote
 
 export class NotesController {
   // Create a new note
-  static async createNote(req: Request, res: Response): Promise<void> {
-    try {
-      if (handleValidationErrors(req, res)) return;
+  static createNote = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    if (handleValidationErrors(req, res)) return;
 
-      const { title, content, tags = [], isPinned = false } = req.body;
-      const { userId } = (req as any).authUser;
+    const { title, content, tags = [], isPinned = false } = req.body;
+    const { userId } = (req as any).authUser;
 
-      const note = new Note({
-        title,
-        content,
-        userId: new mongoose.Types.ObjectId(userId),
-        tags,
-        isPinned
-      });
+    logger.info('Creating new note', { userId, title: title.substring(0, 50) });
 
-      await note.save();
+    const note = new Note({
+      title,
+      content,
+      userId: new mongoose.Types.ObjectId(userId),
+      tags,
+      isPinned
+    });
 
-      res.status(201).json({
-        success: true,
-        message: 'Note created successfully',
-        data: note
-      });
-    } catch (error) {
-      console.error('Error creating note:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Failed to create note'
-      });
-    }
-  }
+    await note.save();
+
+    logger.info('Note created successfully', { noteId: note._id, userId });
+    
+    const response = createResponse(true, 'Note created successfully', note);
+    res.status(201).json(response);
+  });
 
   // Get all notes for the authenticated user
   static async getNotes(req: Request, res: Response): Promise<void> {
