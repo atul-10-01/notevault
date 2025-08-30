@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss';
 
 // Configure XSS options
@@ -9,44 +8,42 @@ const xssOptions = {
   stripIgnoreTagBody: ['script'],
 };
 
-// Sanitize request data to prevent NoSQL injection and XSS
-export const sanitizeInput = [
-  // MongoDB injection prevention
-  mongoSanitize({
-    replaceWith: '_',
-    onSanitize: ({ req, key }) => {
-      console.warn(`Potential NoSQL injection attempt detected: ${key} from IP: ${req.ip}`);
-    },
-  }),
+// Safe sanitization middleware that doesn't modify read-only properties
+export const sanitizeInput = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Only sanitize request body (which is safe to modify)
+    if (req.body && typeof req.body === 'object') {
+      req.body = sanitizeObject(req.body);
+    }
 
-  // Custom XSS sanitization middleware
-  (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Sanitize request body
-      if (req.body && typeof req.body === 'object') {
-        req.body = sanitizeObject(req.body);
-      }
+    // Log potential NoSQL injection patterns without modifying the request
+    if (req.query) {
+      checkForInjectionPatterns(req.query, 'query', req.ip);
+    }
+    if (req.params) {
+      checkForInjectionPatterns(req.params, 'params', req.ip);
+    }
 
-      // Sanitize query parameters
-      if (req.query && typeof req.query === 'object') {
-        req.query = sanitizeObject(req.query);
-      }
+    next();
+  } catch (error) {
+    console.error('Sanitization error:', error);
+    res.status(400).json({
+      success: false,
+      error: 'Invalid input data format'
+    });
+  }
+};
 
-      // Sanitize URL parameters
-      if (req.params && typeof req.params === 'object') {
-        req.params = sanitizeObject(req.params);
-      }
-
-      next();
-    } catch (error) {
-      console.error('Sanitization error:', error);
-      res.status(400).json({
-        success: false,
-        error: 'Invalid input data format'
-      });
+// Check for NoSQL injection patterns without modifying the object
+function checkForInjectionPatterns(obj: any, source: string, ip?: string) {
+  if (!obj || typeof obj !== 'object') return;
+  
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === 'string' && (value.includes('$') || value.includes('{'))) {
+      console.warn(`Potential NoSQL injection pattern detected in ${source}: ${key} from IP: ${ip}`);
     }
   }
-];
+}
 
 // Recursively sanitize object properties
 function sanitizeObject(obj: any): any {
