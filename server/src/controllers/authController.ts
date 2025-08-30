@@ -424,6 +424,45 @@ export class AuthController {
     }
   }
 
+  // POST /api/auth/google - Handle Google ID token authentication
+  static async googleAuthWithCredential(req: Request, res: Response): Promise<Response> {
+    try {
+      const { credential } = req.body;
+
+      if (!credential) {
+        return res.status(400).json({
+          success: false,
+          error: 'Google credential is required'
+        });
+      }
+
+      const result = await GoogleOAuthService.verifyIdToken(credential);
+
+      if (!result.success) {
+        return res.status(400).json({
+          success: false,
+          error: result.error || 'Google authentication failed'
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Google authentication successful',
+        data: {
+          user: result.user,
+          token: result.token
+        }
+      });
+
+    } catch (error) {
+      console.error('Google credential auth error:', error);
+      return res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  }
+
   // GET /api/auth/google/callback
   static async googleCallback(req: Request, res: Response): Promise<Response> {
     try {

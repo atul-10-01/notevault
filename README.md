@@ -7,10 +7,11 @@ A full-stack note-taking application with secure Email + OTP authentication syst
 ### Backend
 - **Framework**: Express.js with TypeScript
 - **Database**: MongoDB with Mongoose
-- **Authentication**: Email + OTP (no passwords) + Google OAuth (placeholder)
+- **Authentication**: Email + OTP (no passwords) + Google OAuth (complete)
 - **Email Service**: Nodemailer with Gmail
 - **Security**: Helmet, CORS, Rate Limiting
 - **Validation**: Express Validator
+- **OAuth**: Google Auth Library for ID token verification
 
 ### Frontend
 - **Framework**: React 19 with TypeScript
@@ -22,6 +23,7 @@ A full-stack note-taking application with secure Email + OTP authentication syst
 - **HTTP Client**: Axios
 - **Notifications**: React Hot Toast
 - **Form Components**: React DatePicker
+- **OAuth**: @react-oauth/google for Google authentication
 
 ## Features Implemented
 
@@ -29,6 +31,7 @@ A full-stack note-taking application with secure Email + OTP authentication syst
 - [x] **Complete Authentication UI** with Figma-matching design
 - [x] **Signup Page** with inline OTP verification
 - [x] **Login Page** with email + OTP flow
+- [x] **Google OAuth Integration** with @react-oauth/google
 - [x] **Responsive Design** with mobile-first approach
 - [x] **Form Validation** with real-time error feedback
 - [x] **Authentication Context** with JWT token management
@@ -51,7 +54,7 @@ A full-stack note-taking application with secure Email + OTP authentication syst
 
 ### COMPLETED - Backend Authentication System
 - [x] **Email + OTP Authentication** (Password-less)
-- [x] **Google OAuth Integration** (Complete OAuth flow)
+- [x] **Google OAuth Integration** (Complete ID token verification)
 - [x] User model with email, name, dateOfBirth, verification status
 - [x] OTP model with expiration (10 minutes) and attempt limits (3 tries)
 - [x] JWT token generation and verification
@@ -59,7 +62,7 @@ A full-stack note-taking application with secure Email + OTP authentication syst
 - [x] Professional email templates (HTML) for OTP delivery
 - [x] Welcome email after successful verification
 - [x] Email service with Gmail integration
-- [x] Google OAuth service with profile integration
+- [x] Google OAuth service with ID token verification
 
 ### COMPLETED - Backend Notes System
 - [x] **Complete CRUD Operations** for user notes
@@ -128,24 +131,23 @@ A full-stack note-taking application with secure Email + OTP authentication syst
 
 2. **Google OAuth Method**:
    - User clicks "Continue with Google"
-   - Google OAuth redirect flow
+   - Google ID token authentication flow
    - Account automatically created/logged in
    - JWT token issued
 
 ### Login Process
 1. **Email + OTP Method**:
    - User provides: **Email**
-   - Click "Resend OTP" → 6-digit code sent to email
+   - Click "Get OTP" → 6-digit code sent to email
    - Enter OTP → Login successful
    - JWT token issued
    - "Keep me logged in" option available
 
 2. **Google OAuth Method**:
    - User clicks "Continue with Google"
+   - Google ID token verification
    - Automatic login if account exists
    - JWT token issued
-4. JWT token issued
-5. "Keep me logged in" option available
 
 ### Security Features
 - COMPLETED: **Per-User Rate Limiting**: Individual quotas for authenticated users
@@ -264,6 +266,15 @@ GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
+Create `client/.env.development` file:
+```env
+# API Configuration
+VITE_API_URL=http://localhost:5000/api
+
+# Google OAuth
+VITE_GOOGLE_CLIENT_ID=your-google-client-id
+```
+
 ### Installation & Run
 
 #### Backend
@@ -293,7 +304,7 @@ npm run build        # Production build
 - `POST /api/auth/verify-otp` - Verify OTP and complete signup/login
 - `POST /api/auth/resend-otp` - Resend OTP (30s rate limit)
 - `POST /api/auth/login` - Email-based login with OTP
-- `POST /api/auth/google` - Google OAuth authentication (COMPLETED)
+- `POST /api/auth/google` - Google OAuth ID token authentication
 - `POST /api/auth/logout` - Logout user
 - `GET /api/auth/profile` - Get user profile
 
@@ -423,6 +434,6 @@ This project is part of a full-stack development assignment showcasing modern we
 
 ---
 
-**Last Updated**: August 30, 2025  
-**Version**: 3.0.0 (Frontend Authentication Complete)  
-**Status**: Full-Stack Authentication System Complete - Ready for Notes Management UI
+**Last Updated**: August 31, 2025  
+**Version**: 3.1.0 (Google OAuth Integration Complete)  
+**Status**: Complete Authentication System with Google OAuth - Ready for Notes Management UI

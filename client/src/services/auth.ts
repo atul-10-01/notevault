@@ -74,9 +74,9 @@ export const authAPI = {
   },
 
   // Google OAuth login
-  googleAuth: async (token: string): Promise<AuthResponse> => {
+  googleAuth: async (credential: string): Promise<AuthResponse> => {
     const response: AxiosResponse<AuthResponse> = await api.post('/auth/google', {
-      token,
+      credential,
     });
     return response.data;
   },

@@ -16,6 +16,7 @@ router.get('/me', authMiddleware, AuthController.getProfile);
 
 // Google OAuth routes
 router.get('/google', AuthController.googleAuth);
+router.post('/google', AuthController.googleAuthWithCredential); // New route for ID token
 router.get('/google/callback', AuthController.googleCallback);
 
 // Logout route

@@ -1,9 +1,11 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
+import { OAuth2Client } from 'google-auth-library';
 import { User, IUser } from '../models/User';
 import { JWTService } from './jwtService';
 
 export class GoogleOAuthService {
+  private static googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
   static initialize() {
     passport.use(
       new GoogleStrategy(
@@ -146,6 +148,64 @@ export class GoogleOAuthService {
     } catch (error) {
       console.error('Google OAuth callback error:', error);
       return { success: false, error: 'OAuth authentication failed' };
+    }
+  }
+
+  // Verify Google ID Token (for frontend authentication)
+  static async verifyIdToken(idToken: string): Promise<{ success: boolean; token?: string; user?: any; error?: string }> {
+    try {
+      // Verify the token with Google
+      const ticket = await this.googleClient.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID
+      });
+
+      const payload = ticket.getPayload();
+      
+      if (!payload || !payload.email) {
+        return { success: false, error: 'Invalid token payload' };
+      }
+
+      // Check if user exists
+      let user = await User.findOne({ email: payload.email });
+
+      if (!user) {
+        // Create new user
+        user = new User({
+          email: payload.email,
+          name: payload.name || 'Google User',
+          dateOfBirth: new Date('1990-01-01'), // Default DOB
+          isEmailVerified: true, // Google accounts are pre-verified
+          lastLogin: new Date()
+        });
+        await user.save();
+      } else {
+        // Update last login
+        user.lastLogin = new Date();
+        await user.save();
+      }
+
+      // Generate JWT token
+      const jwtToken = JWTService.generateToken({
+        userId: (user._id as any).toString(),
+        email: user.email
+      });
+
+      return {
+        success: true,
+        token: jwtToken,
+        user: {
+          id: (user._id as any).toString(),
+          email: user.email,
+          name: user.name,
+          dateOfBirth: user.dateOfBirth,
+          isEmailVerified: user.isEmailVerified
+        }
+      };
+
+    } catch (error) {
+      console.error('Google ID token verification error:', error);
+      return { success: false, error: 'Token verification failed' };
     }
   }
 }
