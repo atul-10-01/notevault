@@ -37,6 +37,19 @@ A full-stack note-taking application with secure Email + OTP authentication and 
 - [x] Welcome email after successful verification
 - [x] Email service with Gmail integration
 
+### COMPLETED - Notes System
+- [x] **Complete CRUD Operations** for user notes
+- [x] Note model with title, content, userId, isPinned, tags
+- [x] User-specific note ownership and access control
+- [x] Pin/unpin functionality for important notes
+- [x] Advanced search with MongoDB text indexing
+- [x] Filtering by pinned status and tags
+- [x] Sorting by date, title, and pinned status
+- [x] Pagination support for large note collections
+- [x] Bulk delete operations
+- [x] Input validation with express-validator
+- [x] Comprehensive error handling and user feedback
+
 ### COMPLETED - Data Models
 ```typescript
 // User Model
@@ -48,6 +61,17 @@ A full-stack note-taking application with secure Email + OTP authentication and 
   lastLogin?: Date,        // Last login timestamp
   createdAt: Date,         // Account creation
   updatedAt: Date          // Last update
+}
+
+// Note Model
+{
+  title: string,           // Note title (1-200 chars)
+  content: string,         // Note content (1-10000 chars)
+  userId: ObjectId,        // Reference to User
+  isPinned: boolean,       // Pin status (default: false)
+  tags: string[],          // Optional tags (max 10, 30 chars each)
+  createdAt: Date,         // Creation timestamp
+  updatedAt: Date          // Last modification
 }
 
 // OTP Model
@@ -96,14 +120,19 @@ Highway Delite/
 │   │   │   └── database.ts
 │   │   ├── models/         # Mongoose models
 │   │   │   ├── User.ts     # User schema
+│   │   │   ├── Note.ts     # Note schema
 │   │   │   └── OTP.ts      # OTP schema
 │   │   ├── services/       # Business logic
 │   │   │   ├── emailService.ts    # Gmail integration
 │   │   │   ├── jwtService.ts      # Token management
 │   │   │   └── otpService.ts      # OTP operations
 │   │   ├── controllers/    # Route handlers
+│   │   │   ├── authController.ts  # Authentication logic
+│   │   │   └── notesController.ts # Notes CRUD operations
 │   │   ├── middleware/     # Auth & validation
 │   │   ├── routes/         # API routes
+│   │   │   ├── auth.ts     # Authentication endpoints
+│   │   │   └── notes.ts    # Notes API endpoints
 │   │   └── index.ts        # Server entry point
 │   ├── package.json
 │   ├── tsconfig.json
@@ -173,7 +202,7 @@ npm run build        # Production build
 ### Health Check
 - `GET /` - Server health status
 
-### Authentication (Planned for Commit 3)
+### Authentication (COMPLETED)
 - `POST /api/auth/signup` - Create account with email + OTP
 - `POST /api/auth/verify-otp` - Verify OTP and complete signup/login
 - `POST /api/auth/resend-otp` - Resend OTP (30s rate limit)
@@ -181,37 +210,53 @@ npm run build        # Production build
 - `POST /api/auth/logout` - Logout user
 - `GET /api/auth/profile` - Get user profile
 
-### Notes (Future Implementation)
-- `GET /api/notes` - Get user notes
+### Notes (COMPLETED)
+- `GET /api/notes` - Get user notes (with pagination, filtering, sorting)
+- `GET /api/notes/search` - Search notes with query parameters
+- `GET /api/notes/:id` - Get specific note by ID
 - `POST /api/notes` - Create new note
 - `PUT /api/notes/:id` - Update note
-- `DELETE /api/notes/:id` - Delete note
+- `DELETE /api/notes/:id` - Delete single note
+- `DELETE /api/notes/bulk` - Bulk delete multiple notes
 - `PATCH /api/notes/:id/pin` - Toggle pin status
+
+#### Notes API Features
+- **Pagination**: `?page=1&limit=10`
+- **Sorting**: `?sortBy=createdAt&sortOrder=desc`
+- **Filtering**: `?isPinned=true`
+- **Search**: `?q=keyword` (searches title and content)
+- **Tag Filtering**: `?tags=work,important`
+- **Authentication**: All endpoints require JWT token
+- **Ownership**: Users can only access their own notes
 
 ## Development Roadmap
 
-### COMPLETED (Commits 1-2)
+### COMPLETED (Commits 1-4)
 - [x] Basic Express server setup
 - [x] MongoDB connection and models
 - [x] Email + OTP authentication system
 - [x] JWT token management
 - [x] Professional email templates
 - [x] Rate limiting and security
-
-### CURRENT SPRINT (Commit 3)
-- [ ] Authentication API endpoints
-- [ ] Input validation middleware
-- [ ] Error handling middleware
-- [ ] API testing
+- [x] Authentication API endpoints
+- [x] Input validation middleware
+- [x] Error handling middleware
+- [x] Complete Notes CRUD system
+- [x] Advanced search and filtering
+- [x] Note pinning and organization
+- [x] Bulk operations
+- [x] API testing with Postman
 
 ### UPCOMING FEATURES
-- [ ] Notes CRUD API (Commit 4)
 - [ ] Google OAuth integration (Commit 5)
 - [ ] Frontend authentication UI (Commit 6)
 - [ ] Notes management UI (Commit 7)
-- [ ] Search and filtering
-- [ ] Note pinning/organization
 - [ ] Responsive design implementation
+- [ ] Dark mode support
+- [ ] Rich text editor for notes
+- [ ] File attachments
+- [ ] Note sharing capabilities
+- [ ] Export functionality
 
 ## Development Notes
 
@@ -230,6 +275,28 @@ npm run build        # Production build
 - Indexes on frequently queried fields
 - Automatic cleanup of expired OTPs
 - Efficient compound indexes for OTP queries
+- MongoDB text indexes for note search functionality
+- Optimized queries for user-specific data access
+
+## Testing
+
+### API Testing
+All endpoints have been tested using Postman with the following test cases:
+- Authentication flow (signup, OTP verification, login)
+- Notes CRUD operations (create, read, update, delete)
+- Search functionality with various parameters
+- Filtering and sorting capabilities
+- Bulk operations
+- Error handling and edge cases
+- Authorization and access control
+
+### Test Coverage
+- Valid input scenarios
+- Invalid input validation
+- Authentication failures
+- Authorization checks
+- Rate limiting verification
+- Database constraint validation
 
 ## Contact & Support
 
@@ -237,6 +304,6 @@ This project is part of a full-stack development assignment showcasing modern we
 
 ---
 
-**Last Updated**: August 29, 2025  
-**Version**: 1.0.0 (Development)  
-**Status**: Active Development
+**Last Updated**: August 30, 2025  
+**Version**: 2.0.0 (Backend Complete)  
+**Status**: Backend Development Complete - Ready for Frontend Integration
