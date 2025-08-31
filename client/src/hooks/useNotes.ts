@@ -26,10 +26,10 @@ export const useNotes = () => {
         return;
       }
 
-      let url = `http://localhost:5000/api/notes?page=${page}&limit=10&sortBy=updatedAt&sortOrder=desc`;
+      let url = `http://localhost:5000/api/notes?page=${page}&limit=2&sortBy=updatedAt&sortOrder=desc`;
       
       if (search) {
-        url = `http://localhost:5000/api/notes/search?q=${encodeURIComponent(search)}&page=${page}&limit=10&sortBy=updatedAt&sortOrder=desc`;
+        url = `http://localhost:5000/api/notes/search?q=${encodeURIComponent(search)}&page=${page}&limit=2&sortBy=updatedAt&sortOrder=desc`;
       }
 
       console.log('Fetching notes from:', url);
@@ -188,6 +188,38 @@ export const useNotes = () => {
     }
   };
 
+  const bulkDeleteNotes = async (noteIds: string[]) => {
+    if (!noteIds || noteIds.length === 0) {
+      toast.error('No notes selected for deletion');
+      return false;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/notes/bulk', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ noteIds })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        toast.success(`${data.deletedCount} notes deleted successfully`);
+        return true;
+      } else {
+        toast.error(data.error || 'Failed to delete notes');
+        return false;
+      }
+    } catch (error) {
+      toast.error('Error deleting notes');
+      return false;
+    }
+  };
+
   return {
     notes,
     isLoading,
@@ -196,6 +228,7 @@ export const useNotes = () => {
     createNote,
     updateNote,
     deleteNote,
-    togglePin
+    togglePin,
+    bulkDeleteNotes
   };
 };

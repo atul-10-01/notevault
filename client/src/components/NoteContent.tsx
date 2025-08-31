@@ -31,7 +31,7 @@ const NoteContent: React.FC<NoteContentProps> = ({
 }) => {
   if (!selectedNote) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-white p-4">
+      <div className="flex-1 flex mt-24 justify-center bg-white p-4">
         <div className="text-center max-w-md">
           <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
             <Plus className="w-8 h-8 text-gray-400" />
