@@ -1,7 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const HomePage: React.FC = () => {
+  const { user } = useAuth();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <div className="min-h-screen overflow-x-hidden bg-white">
       {/* Navigation */}
@@ -9,26 +16,43 @@ const HomePage: React.FC = () => {
         <div className="max-w-screen px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <img
-                src="/icon.svg"
-                alt="Highway Delite"
-                className="w-8 h-8"
-              />
-              <span className="text-2xl font-bold text-gray-900">HD</span>
+              <button
+                onClick={scrollToTop}
+                className="flex items-center space-x-3 hover:brightness-125 transition-all duration-200 p-1 rounded-lg"
+              >
+                <img
+                  src="/icon.svg"
+                  alt="Highway Delite"
+                  className="w-8 h-8"
+                />
+                <span className="text-2xl font-bold text-gray-900">HD</span>
+              </button>
             </div>
             <div className="flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-full transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/signup"
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
-              >
-                Get Started
-              </Link>
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full hover:brightness-125 transform hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-full transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full hover:brightness-125 transform hover:-translate-y-0.5 transition-all duration-200"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

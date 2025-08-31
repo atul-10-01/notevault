@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, Plus, Pin, Trash2, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Note, PaginationInfo } from '../types/note';
 
@@ -63,14 +64,17 @@ const NoteSidebar: React.FC<NoteSidebarProps> = ({
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between mb-4">
-         <div className="flex items-center">
+         <Link 
+           to="/"
+           className="flex items-center hover:brightness-125 transition-all duration-200 p-1 rounded-lg"
+         >
           <img 
             src="/icon.svg" 
             alt="Highway Delite" 
             className="w-8 mr-6"
           />
           <span className="text-2xl font-bold text-gray-900">Dashboard</span>
-        </div>
+        </Link>
           <button
             onClick={onLogout}
             className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"

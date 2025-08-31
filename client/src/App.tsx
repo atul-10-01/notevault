@@ -30,7 +30,7 @@ const AppRoutes: React.FC = () => {
       {/* Public Routes */}
       <Route 
         path="/" 
-        element={isAuthenticated ? <Navigate to="/dashboard" /> : <HomePage />} 
+        element={<HomePage />} 
       />
       <Route 
         path="/signup" 

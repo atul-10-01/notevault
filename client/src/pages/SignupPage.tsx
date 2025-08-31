@@ -232,15 +232,18 @@ const SignupPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Logo at top-left on desktop, centered on mobile */}
-      <div className="absolute top-8 lg:top-5 left-1/2 transform -translate-x-1/2 lg:left-14 lg:transform-none z-10">
-        <div className="flex items-center">
+      <div className="absolute top-8 lg:top-4 left-1/2 transform -translate-x-1/2 lg:left-15 lg:transform-none z-10">
+        <Link 
+          to="/"
+          className="flex items-center hover:brightness-125 transition-all duration-200 p-1 rounded-lg"
+        >
           <img 
             src="/icon.svg" 
             alt="Highway Delite" 
             className="w-8 mr-3"
           />
           <span className="text-2xl font-bold text-gray-900">HD</span>
-        </div>
+        </Link>
       </div>
 
       <div className="flex flex-1">
