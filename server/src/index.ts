@@ -85,6 +85,11 @@ app.get('/', (req, res) => {
   res.json(response);
 });
 
+// Docker health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // API routes
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/notes', notesRoutes);

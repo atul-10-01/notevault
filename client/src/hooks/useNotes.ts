@@ -3,6 +3,8 @@ import toast from 'react-hot-toast';
 import type { Note, PaginationInfo } from '../types/note';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export const useNotes = () => {
   const { logout } = useAuth();
   const [notes, setNotes] = useState<Note[]>([]);
@@ -26,10 +28,10 @@ export const useNotes = () => {
         return;
       }
 
-      let url = `http://localhost:5000/api/notes?page=${page}&limit=2&sortBy=updatedAt&sortOrder=desc`;
+      let url = `${API_BASE_URL}/notes?page=${page}&limit=2&sortBy=updatedAt&sortOrder=desc`;
       
       if (search) {
-        url = `http://localhost:5000/api/notes/search?q=${encodeURIComponent(search)}&page=${page}&limit=2&sortBy=updatedAt&sortOrder=desc`;
+        url = `${API_BASE_URL}/notes/search?q=${encodeURIComponent(search)}&page=${page}&limit=2&sortBy=updatedAt&sortOrder=desc`;
       }
 
       console.log('Fetching notes from:', url);
@@ -81,7 +83,7 @@ export const useNotes = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/notes', {
+      const response = await fetch(`${API_BASE_URL}/notes`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -112,7 +114,7 @@ export const useNotes = () => {
   const updateNote = async (noteId: string, updatedNote: { title: string; content: string; tags: string[] }) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
+      const response = await fetch(`${API_BASE_URL}/notes/${noteId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -139,7 +141,7 @@ export const useNotes = () => {
   const deleteNote = async (noteId: string) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
+      const response = await fetch(`${API_BASE_URL}/notes/${noteId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -165,7 +167,7 @@ export const useNotes = () => {
   const togglePin = async (noteId: string) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/notes/${noteId}/pin`, {
+      const response = await fetch(`${API_BASE_URL}/notes/${noteId}/pin`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -196,7 +198,7 @@ export const useNotes = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/notes/bulk', {
+      const response = await fetch(`${API_BASE_URL}/notes/bulk`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
