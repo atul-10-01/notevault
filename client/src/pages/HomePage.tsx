@@ -3,20 +3,18 @@ import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-100 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="max-w-screen px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3">
-              <img 
-                src="/icon.svg" 
-                alt="Highway Delite" 
+              <img
+                src="/icon.svg"
+                alt="Highway Delite"
                 className="w-8 h-8"
               />
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                HD
-              </span>
+              <span className="text-2xl font-bold text-gray-900">HD</span>
             </div>
             <div className="flex items-center space-x-4">
               <Link
@@ -55,11 +53,11 @@ const HomePage: React.FC = () => {
                   </span>
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-                  Capture ideas instantly, organize them effortlessly, and find them when inspiration strikes. 
+                  Capture ideas instantly, organize them effortlessly, and find them when inspiration strikes.
                   Your digital brain, evolved.
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/signup"
@@ -74,7 +72,7 @@ const HomePage: React.FC = () => {
                   Sign In
                 </Link>
               </div>
-              
+
               <div className="flex items-center space-x-6 text-sm text-gray-500">
                 <div className="flex items-center space-x-1">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -96,10 +94,10 @@ const HomePage: React.FC = () => {
               <div className="relative z-10 bg-white rounded-3xl shadow-2xl p-8 transform rotate-2">
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3">
-                    <img src="/icon.png" alt="HD" className="w-6 h-6" />
+                    <img src="/icon.svg" alt="HD" className="w-6 h-6" />
                     <span className="font-semibold text-gray-900">My Notes</span>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-100">
                       <div className="flex items-center justify-between mb-2">
@@ -108,7 +106,7 @@ const HomePage: React.FC = () => {
                       </div>
                       <p className="text-sm text-gray-600">Building a note-taking app that actually understands...</p>
                     </div>
-                    
+
                     <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-100">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-semibold text-gray-900">Meeting Notes</h3>
@@ -116,7 +114,7 @@ const HomePage: React.FC = () => {
                       </div>
                       <p className="text-sm text-gray-600">Discussed the new feature roadmap and...</p>
                     </div>
-                    
+
                     <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-100">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-semibold text-gray-900">Random Thoughts</h3>
@@ -127,7 +125,7 @@ const HomePage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Background decorations */}
               <div className="absolute top-4 left-4 w-72 h-72 bg-gradient-to-r from-blue-200 to-purple-200 rounded-3xl opacity-20 -rotate-6"></div>
               <div className="absolute -bottom-4 -right-4 w-72 h-72 bg-gradient-to-r from-purple-200 to-pink-200 rounded-3xl opacity-20 rotate-12"></div>
@@ -147,7 +145,7 @@ const HomePage: React.FC = () => {
               We've reimagined note-taking from the ground up. Here's what makes us different.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="group hover:scale-105 transition-transform duration-200">
               <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-200">
@@ -162,7 +160,7 @@ const HomePage: React.FC = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="group hover:scale-105 transition-transform duration-200">
               <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-200">
                 <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6">
@@ -176,7 +174,7 @@ const HomePage: React.FC = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="group hover:scale-105 transition-transform duration-200">
               <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-200">
                 <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6">
@@ -219,7 +217,7 @@ const HomePage: React.FC = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-3 mb-6 md:mb-0">
-              <img src="/icon.png" alt="Highway Delite" className="w-8 h-8" />
+              <img src="/icon.svg" alt="Highway Delite" className="w-8 h-8" />
               <span className="text-xl font-bold">Highway Delite</span>
             </div>
             <div className="text-gray-400">

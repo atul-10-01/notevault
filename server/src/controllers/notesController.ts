@@ -74,14 +74,14 @@ export class NotesController {
         filter.isPinned = isPinned === 'true';
       }
 
-      // Build sort object
+      // Build sort object - Always prioritize pinned notes first
       const sort: any = {};
+      
+      // Always sort by pinned status first (pinned notes on top)
+      sort.isPinned = -1;
+      
+      // Then sort by the requested field
       sort[sortBy] = sortOrder === 'asc' ? 1 : -1;
-
-      // If sorting by something other than isPinned, add isPinned as secondary sort
-      if (sortBy !== 'isPinned') {
-        sort.isPinned = -1; // Pinned notes first
-      }
 
       const skip = (page - 1) * limit;
 
@@ -280,7 +280,12 @@ export class NotesController {
 
       // Add text search if query provided
       if (searchQuery && typeof searchQuery === 'string') {
-        filter.$text = { $search: searchQuery };
+        const searchRegex = new RegExp(searchQuery.trim(), 'i'); // Case-insensitive partial match
+        filter.$or = [
+          { title: { $regex: searchRegex } },
+          { content: { $regex: searchRegex } },
+          { tags: { $regex: searchRegex } }
+        ];
       }
 
       // Add pinned filter
@@ -294,27 +299,19 @@ export class NotesController {
         filter.tags = { $in: tagArray };
       }
 
-      // Build sort object
+      // Build sort object - Always prioritize pinned notes first
       const sort: any = {};
       
-      // If text search, sort by relevance score first
-      if (searchQuery) {
-        sort.score = { $meta: 'textScore' };
-      }
+      // Always sort by pinned status first (pinned notes on top)
+      sort.isPinned = -1;
       
+      // Then sort by the requested field
       sort[sortBy] = sortOrder === 'asc' ? 1 : -1;
-      
-      // Add isPinned as secondary sort if not the primary sort
-      if (sortBy !== 'isPinned') {
-        sort.isPinned = -1;
-      }
 
       const skip = (page - 1) * limit;
 
-      // Build projection for text search
-      const projection = searchQuery ? 
-        { score: { $meta: 'textScore' } } : 
-        { score: 0 };
+      // No projection needed for regex search
+      const projection = {};
 
       const [notes, totalCount] = await Promise.all([
         Note.find(filter, projection)
