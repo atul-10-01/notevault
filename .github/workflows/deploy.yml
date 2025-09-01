@@ -124,11 +124,22 @@ jobs:
       
     - name: Create deployment package
       run: |
+        # Create a clean deployment package excluding unnecessary files
         tar -czf deployment.tar.gz \
           --exclude='.git' \
+          --exclude='*.git*' \
           --exclude='node_modules' \
           --exclude='*/node_modules' \
+          --exclude='**node_modules' \
           --exclude='.github' \
+          --exclude='*.log' \
+          --exclude='*.tmp' \
+          --exclude='deployment.tar.gz' \
+          --exclude='.env*' \
+          --exclude='coverage' \
+          --exclude='dist' \
+          --exclude='build' \
+          --warning=no-file-changed \
           .
           
     - name: Deploy to EC2
