@@ -1,12 +1,77 @@
 # Highway Delite - Note Taking Application
 
-# Highway Delite - Note Taking Application
+A production-ready, full-stack note-taking application w## Professional Development Showcase
 
-A production-ready, full-stack note-taking application with enterprise-grade security, Docker containerization, and AWS deployment pipeline.
+### **Enterprise Security Implementation** enterprise-grade security, Docker containerization, and AWS deployment pipeline.
+
+## Application Screenshots
+
+### System Architecture
+<div align="center">
+  <img src="client/public/architecture.png" alt="System Architecture" width="100%" style="max-width: 1200px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+</div>
+
+### Desktop Screenshots
+<div align="center">
+  <table>
+    <tr>
+      <td width="33%">
+        <img src="client/public/Home-page.png" alt="Home Page" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Home Page</em></p>
+      </td>
+      <td width="33%">
+        <img src="client/public/sign-in.png" alt="Sign In" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Sign In</em></p>
+      </td>
+      <td width="33%">
+        <img src="client/public/sign-up.png" alt="Sign Up" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Sign Up</em></p>
+      </td>
+    </tr>
+    <tr>
+      <td width="33%">
+        <img src="client/public/Dashboard + Editing_Note.png" alt="Dashboard & Editing" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Note Editing</em></p>
+      </td>
+      <td width="33%">
+        <img src="client/public/creating a note with tags.png" alt="Creating Note with Tags" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Creating Note with Tags</em></p>
+      </td>
+      <td width="33%">
+        <img src="client/public/Pagination + Pin feature.png" alt="Pagination & Pin Feature" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Pagination & Pin Feature</em></p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+### Mobile Screenshots
+<div align="center">
+  <table>
+    <tr>
+      <td width="25%">
+        <img src="client/public/homepage-mobile.png" alt="Mobile Home" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Home</em></p>
+      </td>
+      <td width="25%">
+        <img src="client/public/sign-up-mobile.png" alt="Mobile Sign Up" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Sign Up</em></p>
+      </td>
+      <td width="25%">
+        <img src="client/public/dashboard-mobile.png" alt="Mobile Dashboard" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Dashboard</em></p>
+      </td>
+      <td width="25%">
+        <img src="client/public/editing-note-mobile.png" alt="Mobile Note Editing" width="100%" style="border-radius: 8px;">
+        <p align="center"><em>Note Editing</em></p>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## Production Features
 
-### 🔐 Enterprise Security
+### Enterprise Security
 - **Multi-Factor Authentication**: Email + OTP (passwordless) + Google OAuth
 - **Demo-Friendly Rate Limiting**: 50 auth requests/15min, 10s OTP cooldown (optimized for testing)
 - **Input Sanitization**: XSS & NoSQL injection protection on all endpoints
@@ -20,23 +85,24 @@ A production-ready, full-stack note-taking application with enterprise-grade sec
 - **Environment Management**: Secure secrets handling and multi-environment support
 - **Database Optimization**: MongoDB indexing and query optimization
 
-###  Performance & Scalability
+### Performance & Scalability
 - **Advanced Search**: MongoDB text indexing with pagination and filtering
 - **Bulk Operations**: Efficient mass operations with proper validation
 - **Resource Management**: Request size limits (10MB) and connection pooling
 - **Caching Strategy**: Proper HTTP headers and client-side caching
 - **Error Handling**: Comprehensive error middleware with user-friendly responses
 
-## Features
+## Core Features
 
-- User Authentication (JWT + Google OAuth)
-- Note Management (CRUD operations)
-- Search and pagination
-- Pin important notes
-- Bulk operations
-- Responsive design
+- **User Authentication**: JWT + Google OAuth integration
+- **Note Management**: Full CRUD operations with rich text support
+- **Advanced Search**: Text search with pagination and filtering
+- **Pin Important Notes**: Quick access to priority content
+- **Bulk Operations**: Efficient mass note management
+- **Responsive Design**: Seamless mobile and desktop experience
+- **Real-time Updates**: Live note synchronization
 
-##  Professional Highlights
+### **Professional Development Showcase**
 
 ###  **Enterprise Security Implementation**
 - **Zero-Password Authentication**: Email OTP + Google OAuth integration
@@ -44,68 +110,81 @@ A production-ready, full-stack note-taking application with enterprise-grade sec
 - **Attack Prevention**: XSS sanitization, NoSQL injection protection, CSRF protection
 - **Security Headers**: CSP, HSTS, X-Frame-Options via Helmet.js middleware
 
-### 🚀 **Production DevOps Pipeline**
+### **Production DevOps Pipeline**
 - **Containerized Deployment**: Docker multi-stage builds with Node.js 22 LTS
 - **CI/CD Automation**: GitHub Actions with automated testing and AWS deployment
 - **Infrastructure as Code**: Automated EC2 setup with production environment management
 - **Zero-Downtime Deployment**: Health checks, rollback capabilities, backup management
 
-### ⚡ **Performance & Scalability**
+### **Performance & Scalability**
 - **Database Optimization**: MongoDB text indexing for sub-second search results
 - **Advanced Query System**: Pagination, filtering, sorting with efficient compound indexes
 - **Resource Management**: Request size limits, connection pooling, memory optimization
 - **Monitoring & Logging**: Structured Winston logging with error tracking and analytics
 
-### 🎯 **Modern Development Practices**
+### **Modern Development Practices**
 - **Type Safety**: Full TypeScript implementation across frontend and backend
 - **API Design**: RESTful endpoints with consistent error handling and validation
 - **Code Quality**: ESLint, Prettier, and comprehensive error boundary handling
 - **Testing Ready**: Structured for unit, integration, and E2E testing implementation
 
-## 📝 Demo Notes
+## Demo Information
 
-### Rate Limiting (Security Feature)
+### Live Demo Access
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" style="padding: 20px;">
+        <a href="http://ec2-13-61-142-247.eu-north-1.compute.amazonaws.com:5173" target="_blank">
+          <img src="https://img.shields.io/badge/🖥️%20Desktop%20Demo-Live%20on%20AWS-0066CC?style=for-the-badge&logo=amazonaws&logoColor=white" alt="Desktop Demo">
+        </a>
+        <br>
+        <small><em>Full features including Google OAuth</em></small>
+      </td>
+      <td align="center" style="padding: 20px;">
+        <a href="http://13.61.142.247:5173" target="_blank">
+          <img src="https://img.shields.io/badge/📱%20Mobile%20Demo-Direct%20IP-FF6B35?style=for-the-badge&logo=android&logoColor=white" alt="Mobile Demo">
+        </a>
+        <br>
+        <small><em>Mobile-friendly (OAuth disabled due to origin restrictions)</em></small>
+      </td>
+    </tr>
+  </table>
+</div>
+
+> **Note**: The DNS version may not work on mobile due to SSL certificate requirements. The direct IP version is provided for mobile testing but has Google OAuth disabled as it's considered an invalid origin by Google's security policies.
+
+### **Rate Limiting (Security Feature)**
 - **Authentication**: 50 requests per 15 minutes per IP (demo-optimized)
 - **OTP Cooldown**: 10 seconds between requests (balances security and UX)
 - **Note**: In production, these limits can be adjusted based on usage patterns
 
-### Mobile Access
+### **Mobile Access Note**
 Due to modern mobile browser security policies blocking HTTP connections, 
 mobile access may be limited. This is intentional for the demo environment.
 Production deployment would use HTTPS with SSL certificates.
-- **Zero-Downtime Deployment**: Health checks, rollback capabilities, backup management
-
-###  **Performance & Scalability**
-- **Database Optimization**: MongoDB text indexing for sub-second search results
-- **Advanced Query System**: Pagination, filtering, sorting with efficient compound indexes
-- **Resource Management**: Request size limits, connection pooling, memory optimization
-- **Monitoring & Logging**: Structured Winston logging with error tracking and analytics
-
-###  **Modern Development Practices**
-- **Type Safety**: Full TypeScript implementation across frontend and backend
-- **API Design**: RESTful endpoints with consistent error handling and validation
-- **Code Quality**: ESLint, Prettier, and comprehensive error boundary handling
-- **Testing Ready**: Structured for unit, integration, and E2E testing implementation
 
 ## Technology Stack
 
 ### Frontend
-- React 19 with TypeScript
-- Vite for development
-- Tailwind CSS for styling
+- **React 19** with TypeScript
+- **Vite** for lightning-fast development
+- **Tailwind CSS** for modern styling
+- **Context API** for state management
 
 ### Backend
-- Node.js with Express.js
-- MongoDB with Mongoose
-- JWT authentication
-- TypeScript
+- **Node.js 22 LTS** with Express.js
+- **MongoDB 7** with Mongoose ODM
+- **JWT Authentication** with refresh tokens
+- **TypeScript** for type safety
 
-### Infrastructure
-- Docker & Docker Compose
-- Multi-stage builds
-- Volume persistence
-- GitHub Actions CI/CD
-- AWS EC2 deployment
+### Infrastructure & DevOps
+- **Docker** & Docker Compose for containerization
+- **Multi-stage builds** for optimization
+- **GitHub Actions** for CI/CD pipeline
+- **AWS EC2** for production deployment
+- **Nginx** reverse proxy
+- **Winston** structured logging
 
 ## Quick Start with Docker
 
@@ -247,18 +326,6 @@ Production deployment on AWS EC2 with:
 - Zero-downtime updates
 - Cost optimization for free tier
 
-## 💼 Professional Development Showcase
-
-This project demonstrates enterprise-level full-stack development skills including:
-
-- **Security Engineering**: Multi-layer security implementation with rate limiting and attack prevention
-- **DevOps Expertise**: Complete CI/CD pipeline from development to AWS production deployment  
-- **Database Engineering**: Advanced MongoDB optimization with indexing and query performance
-- **System Architecture**: Scalable microservice-ready design with proper separation of concerns
-- **Modern Tech Stack**: Latest LTS versions (Node.js 22, React 19) with TypeScript throughout
-
-**Production URL**: [Live Demo on AWS EC2](http://ec2-13-61-142-247.eu-north-1.compute.amazonaws.com:5173)
-
 ---
 
 **Status**: Production-Ready with AWS Deployment  
@@ -267,4 +334,3 @@ This project demonstrates enterprise-level full-stack development skills includi
 ## License
 
 MIT License
-- **User Authentication**: Secure JWT-based authentication with email/password and Google OAuth

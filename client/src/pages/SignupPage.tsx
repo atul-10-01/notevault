@@ -458,12 +458,12 @@ const SignupPage: React.FC = () => {
       </div>
 
       {/* Right side - Container image */}
-      <div className="hidden lg:block flex-1 bg-gray-50 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
+      <div className="hidden lg:block flex-1 relative overflow-hidden right-3">
+        <div className="absolute inset-0 flex items-end justify-center mt-2 mb-2">
           <img 
             src="/container.svg" 
             alt="Container illustration" 
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover rounded-2xl"
           />
         </div>
         </div>
