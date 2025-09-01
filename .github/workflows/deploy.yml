@@ -120,16 +120,25 @@ jobs:
           NODE_ENV=production
           PORT=5000
           MONGODB_URI=mongodb://highway_user:${{ secrets.MONGO_PASSWORD }}@mongodb:27017/highway_delite
+          CLIENT_URL=http://${{ secrets.EC2_HOST }}:5173
           JWT_SECRET=${{ secrets.JWT_SECRET }}
+          JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}
+          GMAIL_USER=${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD=${{ secrets.GMAIL_APP_PASSWORD }}
+          OTP_EXPIRES_IN=${{ secrets.OTP_EXPIRES_IN }}
+          MAX_OTP_ATTEMPTS=${{ secrets.MAX_OTP_ATTEMPTS }}
           GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GMAIL_EMAIL=${{ secrets.GMAIL_EMAIL }}
-          GMAIL_PASSWORD=${{ secrets.GMAIL_PASSWORD }}
-          CLIENT_URL=http://${{ secrets.EC2_HOST }}:5173
+          GOOGLE_CALLBACK_URL=http://${{ secrets.EC2_HOST }}:5000/api/auth/google/callback
+          SESSION_SECRET=${{ secrets.SESSION_SECRET }}
           MONGO_ROOT_PASSWORD=${{ secrets.MONGO_ROOT_PASSWORD }}
           MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
-          OTP_EXPIRES_IN=10
-          MAX_OTP_ATTEMPTS=3
+          EOF
+          
+          # Create frontend environment file
+          cat > client/.env << EOF
+          VITE_API_URL=http://${{ secrets.EC2_HOST }}:5000/api
+          VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
           EOF
           
           # Stop existing containers
