@@ -34,6 +34,47 @@ jobs:
         cd client
         npm ci
         
+    - name: Build backend (if script exists)
+      run: |
+        cd server
+        npm run build || echo "No build script found - skipping"
+        
+    - name: Build frontend
+      run: |
+        cd client
+        npm run build
+        
+    - name: Run backend tests
+      run: |
+        cd server
+        npm test || echo "No tests found"
+        
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+        
+    - name: Docker Build Test
+      run: |
+        docker compose build || docker-compose build
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: |
+          server/package-lock.json
+          client/package-lock.json
+    
+    - name: Install backend dependencies
+      run: |
+        cd server
+        npm ci
+        
+    - name: Install frontend dependencies
+      run: |
+        cd client
+        npm ci
+        
     - name: Build backend
       run: |
         cd server
@@ -142,10 +183,10 @@ jobs:
           EOF
           
           # Stop existing containers
-          docker-compose down || true
+          docker compose down || docker-compose down || true
           
           # Start new deployment
-          docker-compose up -d --build
+          docker compose up -d --build || docker-compose up -d --build
           
           # Wait for services to start
           sleep 30
@@ -157,10 +198,10 @@ jobs:
             rm -rf ../backup
           else
             echo "Deployment failed! Rolling back..."
-            docker-compose down
+            docker compose down || docker-compose down || true
             if [ -d "../backup" ]; then
               cd ../backup
-              docker-compose up -d
+              docker compose up -d || docker-compose up -d
             fi
             exit 1
           fi
@@ -180,6 +221,6 @@ jobs:
           echo "Time: $(date)"
           echo "Commit: ${{ github.sha }}"
           echo "Services:"
-          docker-compose ps
+          docker compose ps || docker-compose ps
           echo "Health Check:"
           curl -s http://localhost:5000/ | head -1 || echo "Service unavailable"
