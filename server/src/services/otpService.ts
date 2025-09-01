@@ -27,7 +27,7 @@ export class OTPService {
       }
 
       const timeSinceLastOTP = Date.now() - lastOTP.createdAt.getTime();
-      const minWaitTime = 30 * 1000; // 30 seconds minimum wait time
+      const minWaitTime = 10 * 1000; // 10 seconds minimum wait time (relaxed for demo)
 
       if (timeSinceLastOTP < minWaitTime) {
         const waitTime = Math.ceil((minWaitTime - timeSinceLastOTP) / 1000);
