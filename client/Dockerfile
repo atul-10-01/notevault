@@ -1,5 +1,5 @@
-# Use Node.js 18 Alpine for building
-FROM node:18-alpine as builder
+# Use Node.js 22 Alpine for building (Latest LTS, Vite requires 20.19+ or 22.12+)
+FROM node:22-alpine as builder
 
 # Set working directory
 WORKDIR /app

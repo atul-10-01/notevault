@@ -18,7 +18,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '22'
         cache: 'npm'
         cache-dependency-path: |
           server/package-lock.json
@@ -51,53 +51,6 @@ jobs:
         
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-        
-    - name: Docker Build Test
-      run: |
-        # Test individual Docker builds first
-        docker build -t highway-delite-backend ./server
-        docker build -t highway-delite-frontend ./client
-        echo "Individual Docker builds successful"
-        
-    - name: Docker Compose Test
-      run: |
-        # Test docker compose (newer syntax)
-        docker compose build
-        echo "Docker Compose build successful"
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: |
-          server/package-lock.json
-          client/package-lock.json
-    
-    - name: Install backend dependencies
-      run: |
-        cd server
-        npm ci
-        
-    - name: Install frontend dependencies
-      run: |
-        cd client
-        npm ci
-        
-    - name: Build backend
-      run: |
-        cd server
-        npm run build
-        
-    - name: Build frontend
-      run: |
-        cd client
-        npm run build
-        
-    - name: Run backend tests
-      run: |
-        cd server
-        npm test || echo "No tests found"
         
     - name: Docker Build Test
       run: |
@@ -220,8 +173,8 @@ jobs:
           
           # Create frontend environment file
           cat > client/.env << EOF
-          VITE_API_URL=http://${{ secrets.EC2_HOST }}:5000/api
-          VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          VITE_API_URL=${{ secrets.VITE_API_URL }}
+          VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
           EOF
           
           # Stop existing containers
