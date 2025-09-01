@@ -54,7 +54,16 @@ jobs:
         
     - name: Docker Build Test
       run: |
-        docker compose build || docker-compose build
+        # Test individual Docker builds first
+        docker build -t highway-delite-backend ./server
+        docker build -t highway-delite-frontend ./client
+        echo "Individual Docker builds successful"
+        
+    - name: Docker Compose Test
+      run: |
+        # Test docker compose (newer syntax)
+        docker compose build
+        echo "Docker Compose build successful"
       
     - name: Setup Node.js
       uses: actions/setup-node@v4
