@@ -104,9 +104,13 @@ sudo sh get-docker.sh
 # Add user to docker group
 sudo usermod -aG docker ubuntu
 
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+# Install Docker Compose (Modern Plugin Method - Recommended)
+sudo apt update
+sudo apt install docker-compose-plugin
+
+# Alternative: Legacy standalone method (if plugin fails)
+# sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# sudo chmod +x /usr/local/bin/docker-compose
 
 # Logout and login again for group changes
 exit
@@ -116,8 +120,10 @@ exit
 ```bash
 ssh -i "your-key.pem" ubuntu@YOUR-IP
 docker --version
-docker-compose --version
+docker compose version
 ```
+
+**Note**: Modern Docker installations use `docker compose` (with space) instead of `docker-compose` (with hyphen). The plugin method is recommended as the standalone version is deprecated on many CI/CD platforms like GitHub Actions.
 
 ---
 
@@ -227,4 +233,4 @@ crontab -e
 ### 4. Application not accessible:
 - Check security group allows port 3000
 - Verify containers are running: `docker ps`
-- Check logs: `docker-compose logs`
+- Check logs: `docker compose logs`

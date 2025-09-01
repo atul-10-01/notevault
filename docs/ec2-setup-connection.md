@@ -52,12 +52,14 @@ sudo sh get-docker.sh
 # Add user to docker group
 sudo usermod -aG docker ubuntu
 
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+# Install Docker Compose (Modern Plugin Method - Recommended)
+sudo apt update
+sudo apt install docker-compose-plugin
 
-# Create symbolic link
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+# Alternative: Legacy standalone method (if plugin fails)
+# sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# sudo chmod +x /usr/local/bin/docker-compose
+# sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 # Exit and reconnect for group changes
 exit
@@ -70,11 +72,13 @@ ssh -i your-key-name.pem ubuntu@YOUR-EC2-PUBLIC-IP
 
 # Verify Docker installation
 docker --version
-docker-compose --version
+docker compose version
 
 # Test Docker
 docker run hello-world
 ```
+
+**Note**: Modern Docker installations use `docker compose` (with space) instead of `docker-compose` (with hyphen). The plugin method is recommended as the standalone version is deprecated on many CI/CD platforms like GitHub Actions.
 
 ## Step 4: Prepare for Deployment
 

@@ -32,22 +32,13 @@ check_health() {
 
 # Function to rollback deployment
 rollback() {
-    echo "Rolling back deployment..."
-    cd $APP_DIR
-    docker-compose down || true
+    echo "Rolling back to previous deployment..."
+    docker compose down || true
     
-    if [ -d "$BACKUP_DIR" ]; then
-        cd $BACKUP_DIR
-        echo "Starting backup deployment..."
-        docker-compose up -d
-        if check_health; then
-            echo "Rollback successful!"
-        else
-            echo "Rollback failed! Manual intervention required."
-        fi
-    else
-        echo "No backup available for rollback!"
-    fi
+    # Restore backup if it exists
+    if [ -d "../backup" ]; then
+        cd ../backup
+        docker compose up -d
 }
 
 # Main deployment logic
@@ -68,11 +59,11 @@ main() {
     
     # Show current status
     echo "Current deployment status:"
-    docker-compose ps || echo "No containers running"
+    docker compose ps || echo "No containers running"
     
     # Stop existing containers gracefully
     echo "Stopping existing containers..."
-    docker-compose down --timeout 30 || true
+    docker compose down --timeout 30 || true
     
     # Clean up unused Docker resources
     echo "Cleaning up Docker resources..."
@@ -80,7 +71,7 @@ main() {
     
     # Start new deployment
     echo "Starting new deployment..."
-    docker-compose up -d --build
+    docker compose up -d --build
     
     # Wait for services to initialize
     echo "Waiting for services to start..."
@@ -94,7 +85,7 @@ main() {
         echo "=== Deployment Complete ==="
         echo "Time: $(date)"
         echo "Services:"
-        docker-compose ps
+        docker compose ps
         echo "Disk usage:"
         df -h /var/www/highway-delite
         

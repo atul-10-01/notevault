@@ -30,14 +30,14 @@ echo "Environment variables validated"
 
 # Stop existing containers
 echo "Stopping existing containers..."
-docker-compose down
+docker compose down
 
 # Remove old volumes (optional)
 read -p "Do you want to reset the database? This will delete all data! (y/N): " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "Removing database volumes..."
-    docker-compose down -v
+    docker compose down -v
 fi
 
 # Remove old images (optional)
@@ -50,7 +50,7 @@ fi
 
 # Build and start services
 echo "Building and starting services..."
-docker-compose up -d --build
+docker compose up -d --build
 
 # Wait for services to be ready
 echo "Waiting for services to start..."
@@ -58,11 +58,11 @@ sleep 30
 
 # Check if services are running
 echo "Checking service health..."
-if docker-compose ps | grep -q "Up"; then
+if docker compose ps | grep -q "Up"; then
     echo "Services are running successfully!"
     
     # Show service status
-    docker-compose ps
+    docker compose ps
     
     echo ""
     echo "Deployment complete!"
@@ -71,14 +71,14 @@ if docker-compose ps | grep -q "Up"; then
     echo "MongoDB: localhost:27017"
     echo ""
     echo "Useful commands:"
-    echo "  View logs: docker-compose logs -f [service]"
-    echo "  Stop: docker-compose down"
-    echo "  Restart: docker-compose restart [service]"
-    echo "  Update: git pull && docker-compose up -d --build"
-    echo "  Fresh start: docker-compose down -v && docker-compose up -d"
+    echo "  View logs: docker compose logs -f [service]"
+    echo "  Stop: docker compose down"
+    echo "  Restart: docker compose restart [service]"
+    echo "  Update: git pull && docker compose up -d --build"
+    echo "  Fresh start: docker compose down -v && docker compose up -d"
     echo "  Database access: docker exec -it highway-delite-db mongosh --authenticationDatabase admin -u admin -p [password]"
 else
     echo "Some services failed to start. Check logs:"
-    docker-compose logs
+    docker compose logs
     exit 1
 fi

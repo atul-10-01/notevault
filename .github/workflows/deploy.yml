@@ -101,7 +101,16 @@ jobs:
         
     - name: Docker Build Test
       run: |
-        docker-compose build
+        # Test individual Docker builds first
+        docker build -t highway-delite-backend ./server
+        docker build -t highway-delite-frontend ./client
+        echo "Individual Docker builds successful"
+        
+    - name: Docker Compose Test
+      run: |
+        # Test docker compose (newer syntax)
+        docker compose build
+        echo "Docker Compose build successful"
         
   deploy:
     needs: test
@@ -192,10 +201,10 @@ jobs:
           EOF
           
           # Stop existing containers
-          docker compose down || docker-compose down || true
+          docker compose down || true
           
           # Start new deployment
-          docker compose up -d --build || docker-compose up -d --build
+          docker compose up -d --build
           
           # Wait for services to start
           sleep 30
@@ -207,10 +216,10 @@ jobs:
             rm -rf ../backup
           else
             echo "Deployment failed! Rolling back..."
-            docker compose down || docker-compose down || true
+            docker compose down || true
             if [ -d "../backup" ]; then
               cd ../backup
-              docker compose up -d || docker-compose up -d
+              docker compose up -d
             fi
             exit 1
           fi
@@ -230,6 +239,6 @@ jobs:
           echo "Time: $(date)"
           echo "Commit: ${{ github.sha }}"
           echo "Services:"
-          docker compose ps || docker-compose ps
+          docker compose ps
           echo "Health Check:"
           curl -s http://localhost:5000/ | head -1 || echo "Service unavailable"

@@ -35,13 +35,14 @@ A full-stack note-taking application built with React, TypeScript, Node.js, and 
 
 ### Prerequisites
 - Docker Desktop installed and running
+- Docker Compose v2+ (newer `docker compose` syntax)
 
 ### Setup
 ```bash
 # Clone and start
 git clone <repository-url>
 cd highway-delite
-docker-compose up -d
+docker compose up -d
 
 # Access the application
 # Frontend: http://localhost:5173
@@ -51,17 +52,20 @@ docker-compose up -d
 ### Docker Commands
 ```bash
 # Start all services
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f [service-name]
+docker compose logs -f [service-name]
 
 # Stop all services
-docker-compose down
+docker compose down
 
 # Fresh start (removes all data)
-docker-compose down -v && docker-compose up -d
+docker compose down -v && docker compose up -d
 ```
+
+### Docker Compose Version Note
+This project uses the newer `docker compose` syntax (Docker Compose v2+). The old `docker-compose` syntax is deprecated on modern platforms including GitHub Actions, AWS, and newer Docker installations.
 
 ## Manual Installation
 
@@ -95,7 +99,7 @@ chmod +x deploy.sh
 
 ### Manual Docker Production
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## Environment Variables

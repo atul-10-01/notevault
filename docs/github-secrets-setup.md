@@ -108,7 +108,7 @@ Run these on your EC2 instance:
 docker ps
 
 # Check container logs
-docker-compose logs
+docker compose logs
 
 # Check disk space
 df -h
@@ -117,5 +117,5 @@ df -h
 free -h
 
 # Restart services if needed
-docker-compose down && docker-compose up -d
+docker compose down && docker compose up -d
 ```

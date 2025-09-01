@@ -18,10 +18,13 @@ sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
 rm get-docker.sh
 
-# Install Docker Compose
-echo "Installing Docker Compose..."
+# Install Docker Compose v2
+echo "Installing Docker Compose v2..."
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
+# Note: Modern Docker installations include 'docker compose' (v2) by default
+# The standalone docker-compose is for compatibility
 
 # Install additional tools
 echo "Installing additional tools..."
@@ -89,7 +92,7 @@ echo "2. Push code to trigger deployment"
 echo "3. Access your app at: http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):5173"
 echo ""
 echo "Useful commands:"
-echo "  docker-compose ps    # Check running containers"
+echo "  docker compose ps    # Check running containers"
 echo "  htop                 # Monitor system resources"
 echo "  df -h                # Check disk usage"
 echo "  sudo ufw status      # Check firewall status"
