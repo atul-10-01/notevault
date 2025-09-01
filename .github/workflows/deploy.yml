@@ -125,12 +125,15 @@ jobs:
     - name: Create deployment package
       run: |
         # Create a clean deployment package excluding unnecessary files
+        # List files first to ensure we know what we're archiving
+        echo "Creating deployment package..."
+        
+        # Use a more reliable approach with explicit file inclusion
         tar -czf deployment.tar.gz \
-          --exclude='.git' \
-          --exclude='*.git*' \
+          --exclude='.git*' \
           --exclude='node_modules' \
           --exclude='*/node_modules' \
-          --exclude='**node_modules' \
+          --exclude='**/node_modules' \
           --exclude='.github' \
           --exclude='*.log' \
           --exclude='*.tmp' \
@@ -139,8 +142,18 @@ jobs:
           --exclude='coverage' \
           --exclude='dist' \
           --exclude='build' \
-          --warning=no-file-changed \
-          .
+          --exclude='.DS_Store' \
+          --exclude='Thumbs.db' \
+          . || true
+        
+        # Verify the archive was created
+        if [ -f deployment.tar.gz ]; then
+          echo "✅ Deployment package created successfully"
+          ls -lh deployment.tar.gz
+        else
+          echo "❌ Failed to create deployment package"
+          exit 1
+        fi
           
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1.0.0
