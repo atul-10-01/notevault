@@ -28,6 +28,8 @@ A full-stack note-taking application built with React, TypeScript, Node.js, and 
 - Docker & Docker Compose
 - Multi-stage builds
 - Volume persistence
+- GitHub Actions CI/CD
+- AWS EC2 deployment
 
 ## Quick Start with Docker
 
@@ -148,6 +150,22 @@ npm run dev        # Start dev server
 npm run build      # Production build
 npm run preview    # Preview build
 ```
+
+## CI/CD & Deployment
+
+### GitHub Actions
+Automated CI/CD pipeline with:
+- Automated testing on push/PR
+- Docker image building
+- AWS EC2 deployment
+- Health checks and rollback
+
+### AWS Deployment
+Production deployment on AWS EC2 with:
+- Automated Docker deployment
+- Health monitoring
+- Zero-downtime updates
+- Cost optimization for free tier
 
 ## License
 
