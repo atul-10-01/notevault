@@ -50,7 +50,9 @@ app.use(generalLimiter);
 app.use(cors({
   origin: [
     process.env.CLIENT_URL || 'http://localhost:5173',
-    'http://localhost:5174'
+    'http://localhost:5174',
+    'http://ec2-13-61-142-247.eu-north-1.compute.amazonaws.com:5173',
+    'http://13.61.142.247:5173'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
